@@ -1,65 +1,54 @@
-import Image from "next/image";
+import { StockCard } from "@/components/StockCard";
+import { Filter, Flame, Zap } from "lucide-react";
 
-export default function Home() {
+// Mock Data
+const MOCK_STOCKS = [
+  { symbol: "NVDA", name: "NVIDIA Corp", price: 880.00, change: 12.50, changePercent: 1.45, marketCap: "2.2T" },
+  { symbol: "AAPL", name: "Apple Inc.", price: 170.50, change: -2.10, changePercent: -1.22, marketCap: "2.6T" },
+  { symbol: "TSLA", name: "Tesla Inc.", price: 175.30, change: 5.20, changePercent: 3.05, marketCap: "550B" },
+  { symbol: "AMD", name: "Advanced Micro Devices", price: 180.25, change: 4.10, changePercent: 2.32, marketCap: "290B" },
+  { symbol: "MSFT", name: "Microsoft Corp", price: 420.45, change: 1.15, changePercent: 0.27, marketCap: "3.1T" },
+  { symbol: "PLTR", name: "Palantir Tech", price: 24.50, change: 0.80, changePercent: 3.38, marketCap: "50B" },
+  { symbol: "AMZN", name: "Amazon.com Inc.", price: 178.15, change: 1.25, changePercent: 0.71, marketCap: "1.8T" },
+  { symbol: "COIN", name: "Coinbase Global", price: 250.65, change: -5.40, changePercent: -2.11, marketCap: "48B" },
+  { symbol: "META", name: "Meta Platforms", price: 495.20, change: 8.90, changePercent: 1.83, marketCap: "1.2T" },
+];
+
+export default function Dashboard() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="space-y-8 animate-in fade-in duration-500">
+      {/* Hero / Header Section */}
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground mb-1">Market Overview</h1>
+          <p className="text-muted text-sm">Track the latest trends and top movers today.</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="flex items-center gap-2 bg-zinc-900/50 p-1 rounded-lg border border-border">
+          {['Trending', 'Top Gainers', 'New Highs'].map((filter, i) => (
+            <button key={filter} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${i === 0 ? 'bg-primary text-black shadow-lg shadow-primary/25' : 'text-muted hover:text-foreground hover:bg-white/5'}`}>
+              {filter}
+            </button>
+          ))}
         </div>
-      </main>
+      </div>
+
+      {/* Main Grid */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <Flame className="w-5 h-5 text-primary fill-primary/20" />
+            Trending Stocks
+          </h2>
+          <button className="text-sm text-primary hover:underline hover:text-primary/80 transition-colors">View All Market</button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {MOCK_STOCKS.map((stock) => (
+            <StockCard key={stock.symbol} {...stock} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
